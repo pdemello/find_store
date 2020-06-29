@@ -40,7 +40,7 @@ or even just
 
 ## How it works
 
-find_store requires either a zip or an address.  If a zip is provided, the app will lookup the zip in the [2019 US Census ZCTA (Zip Code Tabulation Areas) file](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2019_Gazetteer/2019_Gaz_zcta_national.zip) in order to find the corresponding area's centroid latitude/longitude coordinates. If instead an address is provided, the app will lookup the address using the [US Census Geocoding API](https://geocoding.geo.census.gov/geocoder/), which should provide the latitude/longitude for that address.
+find_store requires either a zip or an address.  If a zip is provided, the app will lookup the zip in the [2019 US Census ZCTA (Zip Code Tabulation Areas) file](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2019_Gazetteer/2019_Gaz_zcta_national.zip) in order to find the corresponding area's [centroid](https://en.wikipedia.org/wiki/Centroid) latitude/longitude coordinates. If instead an address is provided, the app will lookup the address using the [US Census Geocoding API](https://geocoding.geo.census.gov/geocoder/), which should provide the latitude/longitude for that address.
 
 Once the zip or address has been mapped to coordinates, the app will attempt to find the nearest store to those coordinates, according to the list of stores in [store-locations.csv](src/store-locations.csv). If a store is found successfully, the app will output the store info as well as the distance from the provided zip or address.
 
@@ -64,8 +64,8 @@ The app uses the following external libraries:
 - The [Store class](src/main/java/org/example/Store.java) should be refactored to remove the `distance` and `units` fields.  These are not "store information", but having them in the class simplifies outputting Json.
 - The lists of stores and Zip Code Tabulation Areas are simply files. The app would theoretically be faster and more scalable by preprocessing these files into a database, with appropriate indexing, prior to running the app.
 - Consider geospatial database formats such as [Quadtrees](https://en.wikipedia.org/wiki/Quadtree)
-- Searching the list of stores is at the moment an O(n) "full scan". All stores will be checked for their distance until a "minumum distance" is found, as the file is not (apparently) sorted in any way.
+- Searching the list of stores is at the moment an O(n) "full scan". All stores will be checked for their distance until a "minimum distance" is found, as the file is not (apparently) sorted in any way.
 - Searching the list of Zip Code Tabulation Areas is at the moment O(n), but the file is sorted numerically by zip. The app takes advantage of this and ceases to scan the file once a zip code is found.
-- If the app is changed to allow multiple searches in one invocation, consider using batch geolocation calls provided by the Census API, or other APIs, otherwise App will be very slow due to the latency of each individual API call, even if the calls are done asynchronously.
+- If the app is changed to allow multiple searches in one invocation, consider using batch geolocation calls provided by the Census API, or other APIs, otherwise the app will be very slow due to the latency of each individual API call, even if the calls are done asynchronously.
 - If the number of stores goes up by an order of magnitude, this would escalate the need to smartly keep the stores in a database.
 - Some zip codes not not have a corresponding Zip Code Tabulation Area. Therefore in these cases, the zip lookup should fail with an error message.
