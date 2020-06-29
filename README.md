@@ -1,0 +1,3 @@
+- mvn install
+- mvn compile assembly-single
+- ./find_store.....
