@@ -68,4 +68,4 @@ The app uses the following external libraries:
 - Searching the list of Zip Code Tabulation Areas is at the moment O(n), but the file is sorted numerically by zip. The app takes advantage of this and ceases to scan the file once a zip code is found.
 - If the app is changed to allow multiple searches in one invocation, consider using batch geolocation calls provided by the Census API, or other APIs, otherwise the app will be very slow due to the latency of each individual API call, even if the calls are done asynchronously.
 - If the number of stores goes up by an order of magnitude, this would escalate the need to smartly keep the stores in a database.
-- Some zip codes not not have a corresponding Zip Code Tabulation Area. Therefore in these cases, the zip lookup should fail with an error message.
+- Some zip codes do not have a corresponding Zip Code Tabulation Area. Therefore in these cases, the zip lookup should fail with an error message.
